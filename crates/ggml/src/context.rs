@@ -10,7 +10,7 @@ use memmap2::Mmap;
 
 use crate::{
     accelerator::Backend, sys, usize_to_i32, usize_to_i64, Buffer, ComputationGraph, RoPEOverrides,
-    Tensor, Type,
+    Tensor, Type, DEFAULT_EPS,
 };
 
 /// Acts as a RAII-guard over a `sys::ggml_context`, allocating via
@@ -279,7 +279,7 @@ impl Context {
 
     /// Creates a new tensor with the values of `a`, but normalized.
     pub fn op_norm(&self, a: &Tensor) -> Tensor {
-        let tensor = unsafe { sys::ggml_norm(self.as_ptr(), a.ptr.as_ptr()) };
+        let tensor = unsafe { sys::ggml_norm(self.as_ptr(), a.ptr.as_ptr(), DEFAULT_EPS) };
         self.new_tensor_raw(tensor)
     }
 

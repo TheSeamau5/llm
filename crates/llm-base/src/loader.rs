@@ -30,8 +30,8 @@ pub struct FileType {
 }
 impl From<FileType> for i32 {
     fn from(value: FileType) -> Self {
-        (value.quantization_version * ggml::QNT_VERSION_FACTOR) as i32
-            + ggml::sys::llama::llama_ftype::from(value.format)
+        (value.quantization_version * ggml::QNT_VERSION_FACTOR
+            + ggml::sys::llama::llama_ftype::from(value.format)) as i32
     }
 }
 impl TryFrom<i32> for FileType {
